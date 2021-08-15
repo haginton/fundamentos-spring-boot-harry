@@ -1,5 +1,7 @@
 package com.fundamentosplatzi.springboot.fundamentos;
 
+import com.fundamentosplatzi.springboot.fundamentos.bean.MyBean;
+import com.fundamentosplatzi.springboot.fundamentos.bean.MyBeanWithDependency;
 import com.fundamentosplatzi.springboot.fundamentos.component.ComponentDependency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,15 +12,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class FundamentosApplication implements CommandLineRunner {
 	//Primera forma de inyectar una dependencia
-	@Autowired
-	@Qualifier("componentTwoImplement")
+	/*@Autowired
+	@Qualifier("componentTwoImplement")*/
 	private ComponentDependency componentDependency; //Inyección de la dependencia
+	private MyBean myBean;
+	private MyBeanWithDependency myBeanWithDependency;
 
 	//Segunda forma de inyectar una dependencia
-	/*@Autowired
-	public FundamentosApplication(@Qualifier("componentTwoImplement") ComponentDependency componentDependency){ //Inyección de la dependencia (se usa la anotación @Qualifier y se indica 1 de las clases que implementa la interfaz que esta inyectando la dependencia la primera letra en minuscula
+	@Autowired
+	public FundamentosApplication(@Qualifier("componentTwoImplement") ComponentDependency componentDependency
+			, MyBean myBean
+			, MyBeanWithDependency myBeanWithDependency){ //Inyección de la dependencia (se usa la anotación @Qualifier y se indica 1 de las clases que implementa la interfaz que esta inyectando la dependencia la primera letra en minuscula
 		this.componentDependency = componentDependency;
-	}*/
+		this.myBean = myBean;
+		this.myBeanWithDependency = myBeanWithDependency;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(FundamentosApplication.class, args);
@@ -27,5 +35,7 @@ public class FundamentosApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		componentDependency.saludar(); //implementación de la dependencia
+		myBean.print();
+		myBeanWithDependency.printWithDependency();
 	}
 }
